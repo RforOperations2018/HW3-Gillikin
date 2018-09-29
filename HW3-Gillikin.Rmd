@@ -24,10 +24,13 @@ tract <- readOGR("./cb_2017_51_tract_500k/cb_2017_51_tract_500k.shp", layer = "c
 
 # Custom color palatte
 palet <- colorFactor(c("#4575b4", "#d73027"), c("multiple", "single"))
+```
 
+
+```{r}
 leaflet() %>%
   # Set custom view
-  setView(-78.507980, 38.033554, 13) %>%
+  setView(-78.48, 38.02, 13) %>%
   # 3 map layers
   addTiles(group = "OpenStreetMap.Mapnik") %>%
   addProviderTiles("OpenStreetMap.HOT", group = "OpenStreetMap.HOT") %>%
@@ -35,12 +38,14 @@ leaflet() %>%
   # Layer control
   addLayersControl(
     baseGroups = c("OpenStreetMap.Mapnik", "OpenStreetMap.HOT", "OpenTopoMap"),
+    overlayGroups = c("Affordable Housing Units", "Census Tracts"),
     options = layersControlOptions(collapsed = FALSE)) %>%
-  # Add markers
-  addCircleMarkers(data = housing.units, lng = ~long, lat = ~lat, radius = 2, color = ~pal(type), clusterOptions = markerClusterOptions()) %>%
+  # Add clusters of markers for affordable housing units
+  addCircleMarkers(data = housing.units, lng = ~long, lat = ~lat, radius = 2, color = ~pal(type), clusterOptions = markerClusterOptions(), group = "Affordable Housing Units") %>%
   # Add legend for circle markers
   addLegend(position = "topright" , pal = palet, values = housing.units$type, title = "Affordable Housing by Type") %>%
-  addPolygons(data = tract, color = "#444444")
+  # Add census tracts
+  addPolygons(data = tract, fill = F, weight = 3, color = "#444444", group = "Census Tracts")
 
 ```
 
