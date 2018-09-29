@@ -22,8 +22,8 @@ housing.units <- read.csv("charlottesville_affordable_housing.csv")
 # Load US Census tract data for VA
 tract <- readOGR("./cb_2017_51_tract_500k/cb_2017_51_tract_500k.shp", layer = "cb_2017_51_tract_500k", GDAL1_integer64_policy = TRUE)
 
-# Load selected Bus 4 data for Charlottesville
-bus4 <- readOGR("roads")
+# Load selected Places Path data for Charlottesville
+path.interests <- read.csv("places.of.interest.path.csv")
 
 # Custom color palatte
 palet <- colorFactor(c("#4575b4", "#d73027"), c("multiple", "single"))
@@ -44,13 +44,13 @@ leaflet() %>%
   # Add legend for circle markers
   addLegend(position = "topright" , pal = palet, values = housing.units$type, title = "Affordable Housing by Type") %>%
   # Add two selected points from Bus 4
-  addPolylines(data = bus4, weight = 5, color = "#blue") %>%
+  addPolylines(data = path.interests, lng = ~long, lat = ~lat, color = "blue") %>%
   # Add census tracts
   addPolygons(data = tract, fill = F, weight = 3, color = "#444444", group = "Census Tracts") %>%
   # Layers control ---
   addLayersControl(
     baseGroups = c("OSM (default)", "HOT", "TopoMap"),
-    overlayGroups = c("Affordable Housing Units", "Census Tracts", "Bus 4 (selected points"),
+    overlayGroups = c("Affordable housing units", "Census tracts", "Path between places of interest"),
     options = layersControlOptions(collapsed = FALSE))
 ```
 
