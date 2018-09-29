@@ -31,22 +31,22 @@ palet <- colorFactor(c("#4575b4", "#d73027"), c("multiple", "single"))
 leaflet() %>%
   # Set custom view
   setView(-78.4800, 38.0255, 13) %>%
-  # 3 map layers
-  addTiles(group = "OpenStreetMap.Mapnik") %>%
-  addProviderTiles("OpenStreetMap.HOT", group = "OpenStreetMap.HOT") %>%
-  addProviderTiles("OpenTopoMap", group = "OpenTopoMap") %>%
-  # Layer control
-  addLayersControl(
-    baseGroups = c("OpenStreetMap.Mapnik", "OpenStreetMap.HOT", "OpenTopoMap"),
-    overlayGroups = c("Affordable Housing Units", "Census Tracts"),
-    options = layersControlOptions(collapsed = FALSE)) %>%
+  # Base Groups ---
+  addTiles(group = "OSM (default)") %>%
+  addProviderTiles("OpenStreetMap.HOT", group = "HOT") %>%
+  addProviderTiles("OpenTopoMap", group = "TopoMap") %>%
+  # Overlay Groups ---
   # Add clusters of markers for affordable housing units
   addCircleMarkers(data = housing.units, lng = ~long, lat = ~lat, radius = 2, color = ~pal(type), clusterOptions = markerClusterOptions(), group = "Affordable Housing Units") %>%
   # Add legend for circle markers
   addLegend(position = "topright" , pal = palet, values = housing.units$type, title = "Affordable Housing by Type") %>%
   # Add census tracts
-  addPolygons(data = tract, fill = F, weight = 3, color = "#444444", group = "Census Tracts")
-
+  addPolygons(data = tract, fill = F, weight = 3, color = "#444444", group = "Census Tracts") %>%
+  # Layers control ---
+  addLayersControl(
+    baseGroups = c("OSM (default)", "HOT", "TopoMap"),
+    overlayGroups = c("Affordable Housing Units", "Census Tracts"),
+    options = layersControlOptions(collapsed = FALSE))
 ```
 
 
