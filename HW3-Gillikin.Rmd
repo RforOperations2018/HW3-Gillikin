@@ -30,7 +30,7 @@ palet <- colorFactor(c("#4575b4", "#d73027"), c("multiple", "single"))
 ```{r}
 leaflet() %>%
   # Set custom view
-  setView(-78.48, 38.02, 13) %>%
+  setView(-78.4800, 38.0255, 13) %>%
   # 3 map layers
   addTiles(group = "OpenStreetMap.Mapnik") %>%
   addProviderTiles("OpenStreetMap.HOT", group = "OpenStreetMap.HOT") %>%
