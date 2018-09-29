@@ -40,17 +40,17 @@ leaflet() %>%
   addProviderTiles("OpenTopoMap", group = "TopoMap") %>%
   # Overlay Groups ---
   # Add clusters of markers for affordable housing units
-  addCircleMarkers(data = housing.units, lng = ~long, lat = ~lat, radius = 2, color = ~pal(type), clusterOptions = markerClusterOptions(), group = "Affordable Housing Units") %>%
+  addCircleMarkers(data = housing.units, lng = ~long, lat = ~lat, radius = 2, color = ~pal(type), clusterOptions = markerClusterOptions(), group = "Affordable housing units") %>%
   # Add legend for circle markers
-  addLegend(position = "topright" , pal = palet, values = housing.units$type, title = "Affordable Housing by Type") %>%
+  addLegend(position = "topright" , pal = palet, values = housing.units$type, title = "Affordable housing units by type") %>%
   # Add two selected points from Bus 4
-  addPolylines(data = path.interests, lng = ~long, lat = ~lat, color = "blue") %>%
+  addPolylines(data = path.interests, lng = ~long, lat = ~lat, color = "blue", group = "Path of places of interest") %>%
   # Add census tracts
-  addPolygons(data = tract, fill = F, weight = 3, color = "#444444", group = "Census Tracts") %>%
+  addPolygons(data = tract, fill = F, weight = 3, color = "#444444", group = "Census tracts") %>%
   # Layers control ---
   addLayersControl(
     baseGroups = c("OSM (default)", "HOT", "TopoMap"),
-    overlayGroups = c("Affordable housing units", "Census tracts", "Path between places of interest"),
+    overlayGroups = c("Affordable housing units", "Census tracts", "Path of places of interest"),
     options = layersControlOptions(collapsed = FALSE))
 ```
 
