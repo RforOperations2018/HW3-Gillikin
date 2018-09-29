@@ -23,11 +23,11 @@ housing.units <- read.csv("charlottesville_affordable_housing.csv")
 
 tract <- readOGR("./cb_2017_51_tract_500k/cb_2017_51_tract_500k.shp", layer = "cb_2017_51_tract_500k", GDAL1_integer64_policy = TRUE)
 plot(tract)
-```
+#```
 
 
 
-```{r}
+#```{r}
 
 # Set palette
 palet <- colorFactor(c("red", "blue"), c("multiple", "single"))
@@ -45,7 +45,7 @@ leaflet() %>%
   addCircleMarkers(data = housing.units, lng = ~long, lat = ~lat, radius = 2, color = ~pal(type), clusterOptions = markerClusterOptions()) %>%
   # Add legend for circle markers
   addLegend(position = "topright" , pal = palet, values = housing.units$type, title = "Affordable Housing by Type")
-  addPolygons(date = planning)
+  addPolygons(date = tract)
 
 ```
 
