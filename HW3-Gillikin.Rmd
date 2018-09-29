@@ -22,6 +22,9 @@ housing.units <- read.csv("charlottesville_affordable_housing.csv")
 # Load US Census tract data for VA
 tract <- readOGR("./cb_2017_51_tract_500k/cb_2017_51_tract_500k.shp", layer = "cb_2017_51_tract_500k", GDAL1_integer64_policy = TRUE)
 
+# Load bike lane line data for Charlottesville
+bike.lanes <- readOGR("trail_line_06_23_2018")
+
 # Custom color palatte
 palet <- colorFactor(c("#4575b4", "#d73027"), c("multiple", "single"))
 ```
@@ -30,7 +33,7 @@ palet <- colorFactor(c("#4575b4", "#d73027"), c("multiple", "single"))
 ```{r}
 leaflet() %>%
   # Set custom view
-  setView(-78.4800, 38.0255, 13) %>%
+  setView(-78.4800, 38.03, 13) %>%
   # Base Groups ---
   addTiles(group = "OSM (default)") %>%
   addProviderTiles("OpenStreetMap.HOT", group = "HOT") %>%
@@ -42,16 +45,22 @@ leaflet() %>%
   addLegend(position = "topright" , pal = palet, values = housing.units$type, title = "Affordable Housing by Type") %>%
   # Add census tracts
   addPolygons(data = tract, fill = F, weight = 3, color = "#444444", group = "Census Tracts") %>%
+  # Add bike lanes
+  #addPolylines() %>%
   # Layers control ---
   addLayersControl(
     baseGroups = c("OSM (default)", "HOT", "TopoMap"),
-    overlayGroups = c("Affordable Housing Units", "Census Tracts"),
+    overlayGroups = c("Affordable Housing Units", "Census Tracts", "Bike Lanes"),
     options = layersControlOptions(collapsed = FALSE))
 ```
 
 
 
 ```{r}
+leaflet() %>%
+  addProviderTiles(providers$Esri.WorldImagery) 
+
+
 ```
 
 
