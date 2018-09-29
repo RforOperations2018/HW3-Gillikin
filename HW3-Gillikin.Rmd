@@ -4,21 +4,40 @@ output: html_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+require(rgdal)
+require(leaflet)
+require(leaflet.extras)
+require(dplyr)
+require(readxl)
+require(stringr)
 ```
 
 
 
-```{r cars}
-summary(cars)
+```{r}
+
+housing.units <- read.csv("charlottesville_affordable_housing.csv")
+
+# Set palette
+pal <- colorFactor(c("red", "blue"), c("multiple", "single"))
+
+leaflet() %>%
+  # Basemaps
+  addTiles(group = "OpenStreetMap.Mapnik") %>%
+  addProviderTiles("OpenStreetMap.HOT", group = "OpenStreetMap.HOT") %>%
+  addProviderTiles("OpenTopoMap", group = "OpenTopoMap") %>%
+  # Layer control
+  addLayersControl(
+    baseGroups = c("OpenStreetMap.Mapnik", "OpenStreetMap.HOT", "OpenTopoMap"),
+    options = layersControlOptions(collapsed = FALSE)) %>%
+  # Add markers
+  addCircleMarkers(data = housing.units, lng = ~long, lat = ~lat, radius = 2, color = ~pal(type)) %>%
+  addLegend(position = "topright" , pal = pal, values = housing.units$type, title = "Affordable Housing by Type")
 ```
 
-## Including Plots
 
-You can also embed plots, for example:
 
-```{r pressure, echo=FALSE}
-plot(pressure)
+```{r}
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
