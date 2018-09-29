@@ -17,9 +17,13 @@ require(stringr)
 ```{r}
 
 housing.units <- read.csv("charlottesville_affordable_housing.csv")
+planning <- readOGR("./planning_area/planning_area.shp", layer = "planning_area", GDAL1_integer64_policy = TRUE)
+plot(planning)
+
+
 
 # Set palette
-pal <- colorFactor(c("red", "blue"), c("multiple", "single"))
+palet <- colorFactor(c("red", "blue"), c("multiple", "single"))
 
 leaflet() %>%
   # Basemaps
@@ -32,7 +36,10 @@ leaflet() %>%
     options = layersControlOptions(collapsed = FALSE)) %>%
   # Add markers
   addCircleMarkers(data = housing.units, lng = ~long, lat = ~lat, radius = 2, color = ~pal(type), clusterOptions = markerClusterOptions()) %>%
-  addLegend(position = "topright" , pal = pal, values = housing.units$type, title = "Affordable Housing by Type")
+  # Add legend for circle markers
+  addLegend(position = "topright" , pal = palet, values = housing.units$type, title = "Affordable Housing by Type")
+  addPolygons(date = planning)
+
 ```
 
 
