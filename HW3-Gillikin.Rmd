@@ -31,7 +31,7 @@ leaflet() %>%
     baseGroups = c("OpenStreetMap.Mapnik", "OpenStreetMap.HOT", "OpenTopoMap"),
     options = layersControlOptions(collapsed = FALSE)) %>%
   # Add markers
-  addCircleMarkers(data = housing.units, lng = ~long, lat = ~lat, radius = 2, color = ~pal(type)) %>%
+  addCircleMarkers(data = housing.units, lng = ~long, lat = ~lat, radius = 2, color = ~pal(type), clusterOptions = markerClusterOptions()) %>%
   addLegend(position = "topright" , pal = pal, values = housing.units$type, title = "Affordable Housing by Type")
 ```
 
