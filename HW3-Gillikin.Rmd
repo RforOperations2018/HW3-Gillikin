@@ -22,8 +22,8 @@ housing.units <- read.csv("charlottesville_affordable_housing.csv")
 # Load US Census tract data for VA
 tract <- readOGR("./cb_2017_51_tract_500k/cb_2017_51_tract_500k.shp", layer = "cb_2017_51_tract_500k", GDAL1_integer64_policy = TRUE)
 
-# Load bike lane line data for Charlottesville
-bike.lanes <- readOGR("trail_line_06_23_2018")
+# Load selected Bus 4 data for Charlottesville
+bus4 <- readOGR("roads")
 
 # Custom color palatte
 palet <- colorFactor(c("#4575b4", "#d73027"), c("multiple", "single"))
@@ -43,24 +43,15 @@ leaflet() %>%
   addCircleMarkers(data = housing.units, lng = ~long, lat = ~lat, radius = 2, color = ~pal(type), clusterOptions = markerClusterOptions(), group = "Affordable Housing Units") %>%
   # Add legend for circle markers
   addLegend(position = "topright" , pal = palet, values = housing.units$type, title = "Affordable Housing by Type") %>%
+  # Add two selected points from Bus 4
+  addPolylines(data = bus4, weight = 5, color = "#blue") %>%
   # Add census tracts
   addPolygons(data = tract, fill = F, weight = 3, color = "#444444", group = "Census Tracts") %>%
-  # Add bike lanes
-  #addPolylines() %>%
   # Layers control ---
   addLayersControl(
     baseGroups = c("OSM (default)", "HOT", "TopoMap"),
-    overlayGroups = c("Affordable Housing Units", "Census Tracts", "Bike Lanes"),
+    overlayGroups = c("Affordable Housing Units", "Census Tracts", "Bus 4 (selected points"),
     options = layersControlOptions(collapsed = FALSE))
-```
-
-
-
-```{r}
-leaflet() %>%
-  addProviderTiles(providers$Esri.WorldImagery) 
-
-
 ```
 
 
