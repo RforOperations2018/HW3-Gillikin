@@ -17,10 +17,17 @@ require(stringr)
 ```{r}
 
 housing.units <- read.csv("charlottesville_affordable_housing.csv")
-planning <- readOGR("./planning_area/planning_area.shp", layer = "planning_area", GDAL1_integer64_policy = TRUE)
-plot(planning)
+#planning <- readOGR("planning_area/planning_area.shp", layer = "planning_area", GDAL1_integer64_policy = TRUE)
+#plot(planning)
 
 
+tract <- readOGR("./cb_2017_51_tract_500k/cb_2017_51_tract_500k.shp", layer = "cb_2017_51_tract_500k", GDAL1_integer64_policy = TRUE)
+plot(tract)
+```
+
+
+
+```{r}
 
 # Set palette
 palet <- colorFactor(c("red", "blue"), c("multiple", "single"))
