@@ -40,7 +40,8 @@ leaflet() %>%
   addProviderTiles("OpenTopoMap", group = "TopoMap") %>%
   # Overlay Groups ---
   # Add clusters of markers for affordable housing units
-  addCircleMarkers(data = housing.units, lng = ~long, lat = ~lat, radius = 2, color = ~pal(type), clusterOptions = markerClusterOptions(), group = "Affordable housing units") %>%
+  # You renamed your palet function at some point, be careful!
+  addCircleMarkers(data = housing.units, lng = ~long, lat = ~lat, radius = 2, color = ~palet(type), clusterOptions = markerClusterOptions(), group = "Affordable housing units") %>%
   # Add legend for circle markers
   addLegend(position = "topright" , pal = palet, values = housing.units$type, title = "Affordable housing units by type") %>%
   # Add path connecting selected points of interest
