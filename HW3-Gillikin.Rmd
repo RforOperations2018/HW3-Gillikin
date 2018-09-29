@@ -43,7 +43,7 @@ leaflet() %>%
   addCircleMarkers(data = housing.units, lng = ~long, lat = ~lat, radius = 2, color = ~pal(type), clusterOptions = markerClusterOptions(), group = "Affordable housing units") %>%
   # Add legend for circle markers
   addLegend(position = "topright" , pal = palet, values = housing.units$type, title = "Affordable housing units by type") %>%
-  # Add two selected points from Bus 4
+  # Add path connecting selected points of interest
   addPolylines(data = path.interests, lng = ~long, lat = ~lat, color = "blue", group = "Path of places of interest") %>%
   # Add census tracts
   addPolygons(data = tract, fill = F, weight = 3, color = "#444444", group = "Census tracts") %>%
