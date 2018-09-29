@@ -10,30 +10,25 @@ require(leaflet.extras)
 require(dplyr)
 require(readxl)
 require(stringr)
+require(sp)
 ```
 
 
 
 ```{r}
-
+# Load affordable housing units data for Charlottesville, VA
 housing.units <- read.csv("charlottesville_affordable_housing.csv")
-#planning <- readOGR("planning_area/planning_area.shp", layer = "planning_area", GDAL1_integer64_policy = TRUE)
-#plot(planning)
 
-
+# Load US Census tract data for VA
 tract <- readOGR("./cb_2017_51_tract_500k/cb_2017_51_tract_500k.shp", layer = "cb_2017_51_tract_500k", GDAL1_integer64_policy = TRUE)
-plot(tract)
-#```
 
-
-
-#```{r}
-
-# Set palette
-palet <- colorFactor(c("red", "blue"), c("multiple", "single"))
+# Custom color palatte
+palet <- colorFactor(c("#4575b4", "#d73027"), c("multiple", "single"))
 
 leaflet() %>%
-  # Basemaps
+  # Set custom view
+  setView(-78.507980, 38.033554, 13) %>%
+  # 3 map layers
   addTiles(group = "OpenStreetMap.Mapnik") %>%
   addProviderTiles("OpenStreetMap.HOT", group = "OpenStreetMap.HOT") %>%
   addProviderTiles("OpenTopoMap", group = "OpenTopoMap") %>%
@@ -44,8 +39,8 @@ leaflet() %>%
   # Add markers
   addCircleMarkers(data = housing.units, lng = ~long, lat = ~lat, radius = 2, color = ~pal(type), clusterOptions = markerClusterOptions()) %>%
   # Add legend for circle markers
-  addLegend(position = "topright" , pal = palet, values = housing.units$type, title = "Affordable Housing by Type")
-  addPolygons(date = tract)
+  addLegend(position = "topright" , pal = palet, values = housing.units$type, title = "Affordable Housing by Type") %>%
+  addPolygons(data = tract, color = "#444444")
 
 ```
 
